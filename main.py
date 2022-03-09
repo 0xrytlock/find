@@ -9,14 +9,16 @@ def main():
     parser.add_argument("--file", "-f", help="name of file to find")
     args = parser.parse_args()
 
+    path = os.path.abspath(args.path)
+
     try:
-        for root, _dirs, files in os.walk(os.path.normpath(args.path)):
-            for name in files:
-                if args.file:
-                    if args.file in name:
-                        print(os.path.join(root, name))
+        for root_path, _dirs, files in os.walk(path):
+            for basename in files:
+                if args.file is not None:
+                    if args.file in basename:
+                        print(os.path.join(root_path, basename))
                 else:
-                    print(os.path.join(root, name))
+                    print(os.path.join(root_path, basename))
 
     except KeyboardInterrupt:
         sys.exit("Keyboard interrupt, quiting..")
